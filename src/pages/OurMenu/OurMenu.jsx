@@ -9,118 +9,92 @@ import Cover from '../components/Cover/Cover';
 import MenuItem from '../components/MenuItem/MenuItem';
 import SectionTitle from '../components/SectionTitle/SectionTitle';
 
-
 const OurMenu = () => {
-
     const menuItems = useAllMenu();
-    const offeredItems = menuItems.filter(item => item.category === "offered");
-    const dessertItems = menuItems.filter(item => item.category === "dessert");
-    const pizzaItems = menuItems.filter(item => item.category === "pizza");
-    const saladItems = menuItems.filter(item => item.category === "salad");
-    const soupItems = menuItems.filter(item => item.category === "soup");
-    const drinksItems = menuItems.filter(item => item.category === "drinks");
-
-    console.log(offeredItems);
-
+    const sectionsInfo = [
+        {
+            cover: our_menu,
+            title: "our menu",
+            subtitle: "Would you like to try a dish?",
+            key: "offered",
+            sectionTitle: "today's offer",
+            sectionSubtitle: "Don't miss"
+        },
+        {
+            cover: dessert_bg,
+            title: "dessert's",
+            subtitle: "Would you like to try a dessert?",
+            key: "dessert",
+            sectionTitle: "dessert's",
+            sectionSubtitle: "Don't miss"
+        },
+        {
+            cover: pizza_bg,
+            title: "pizza's",
+            subtitle: "Would you like to try a pizza?",
+            key: "pizza",
+            sectionTitle: "pizza's",
+            sectionSubtitle: "Don't miss"
+        },
+        {
+            cover: salad_bg,
+            title: "salad's",
+            subtitle: "Would you like to try a salad?",
+            key: "salad",
+            sectionTitle: "salad's",
+            sectionSubtitle: "Don't miss"
+        },
+        {
+            cover: soup_bg,
+            title: "soup's",
+            subtitle: "Would you like to try some soup?",
+            key: "soup",
+            sectionTitle: "soup's",
+            sectionSubtitle: "Don't miss"
+        },
+        {
+            cover: pizza_bg,
+            title: "drink's",
+            subtitle: "Would you like to try a drink?",
+            key: "drinks",
+            sectionTitle: "drink's",
+            sectionSubtitle: "Don't miss"
+        }
+    ];
 
     return (
         <div>
-            <section>
-                <Cover bg_img={our_menu} title={"our menu"} subTitle={"Would you like to try a dish?"}></Cover>
-            </section>
+            {sectionsInfo.map((sec) => {
+                const filteredItems = menuItems.filter(item => item.category === sec.key);
 
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"today's offer"} subTitle={"Don't miss"}></SectionTitle>
+                return (
+                    <div key={sec.key}>
 
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {offeredItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
+                        {/* COVER */}
+                        <section>
+                            <Cover bg_img={sec.cover} title={sec.title} subTitle={sec.subtitle} />
+                        </section>
 
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
+                        {/* ITEMS */}
+                        <section className="mt-20 mb-10">
+                            <SectionTitle title={sec.sectionTitle} subTitle={sec.sectionSubtitle} />
 
-            <section>
-                <Cover bg_img={dessert_bg} title={"dessert's"} subTitle={"Would you like to try a dessert?"}></Cover>
-            </section>
+                            <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
+                                {filteredItems.map(item => (
+                                    <MenuItem item={item} key={item._id} />
+                                ))}
+                            </div>
 
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"dessert's"} subTitle={"Don't miss"}></SectionTitle>
+                            <div className="flex items-center justify-center">
+                                <button className="btn btn-outline uppercase border-0 border-b-2">
+                                    ORDER YOUR FAVOURITE FOOD
+                                </button>
+                            </div>
+                        </section>
 
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {dessertItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
-
-            <section>
-                <Cover bg_img={pizza_bg} title={"pizza's"} subTitle={"Would you like to try a pizza?"}></Cover>
-            </section>
-
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"pizza's"} subTitle={"Don't miss"}></SectionTitle>
-
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {pizzaItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
-
-            <section>
-                <Cover bg_img={salad_bg} title={"salad's"} subTitle={"Would you like to try a salad?"}></Cover>
-            </section>
-
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"salad's"} subTitle={"Don't miss"}></SectionTitle>
-
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {saladItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
-
-            <section>
-                <Cover bg_img={soup_bg} title={"soup's"} subTitle={"Would you like to try a salad?"}></Cover>
-            </section>
-
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"soup's"} subTitle={"Don't miss"}></SectionTitle>
-
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {soupItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
-
-            <section>
-                <Cover bg_img={pizza_bg} title={"drink's"} subTitle={"Would you like to try a drink?"}></Cover>
-            </section>
-
-            <section className="mt-20 mb-10">
-                <SectionTitle title={"drink's"} subTitle={"Don't miss"}></SectionTitle>
-
-                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                    {drinksItems.map(item => <MenuItem item={item} key={item._id}></MenuItem>)}
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <button className="btn btn-outline uppercase border-0 border-b-2">ORDER YOUR FAVOURITE FOOD</button>
-                </div>
-            </section>
-
+                    </div>
+                );
+            })}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import { useAllMenu } from '../../../hooks/useMenu';
 
 const TabCategories = () => {
     const menuItems = useAllMenu();
-    console.log(menuItems);
+    // console.log(menuItems);
 
     const categories = [
         { label: "salads", key: "salad" },
