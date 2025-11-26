@@ -3,14 +3,16 @@ import dessert_bg from '../../assets/menu/dessert-bg.jpeg';
 import pizza_bg from '../../assets/menu/pizza-bg.jpg';
 import salad_bg from '../../assets/menu/salad-bg.jpg';
 import soup_bg from '../../assets/menu/soup-bg.jpg';
-
+import { useNavigate } from 'react-router-dom';
 import { useAllMenu } from '../../hooks/useMenu';
 import Cover from '../components/Cover/Cover';
 import MenuItem from '../components/MenuItem/MenuItem';
 import SectionTitle from '../components/SectionTitle/SectionTitle';
 
 const OurMenu = () => {
-    const {data:menuItems=[]} = useAllMenu();
+    const { data: menuItems = [] } = useAllMenu();
+    const navigate = useNavigate();
+
     const sectionsInfo = [
         {
             cover: our_menu,
@@ -86,7 +88,9 @@ const OurMenu = () => {
                             </div>
 
                             <div className="flex items-center justify-center">
-                                <button className="btn btn-outline uppercase border-0 border-b-2">
+                                <button
+                                    onClick={() => navigate(`/our-shop`, { state: { category: sec.key } })}
+                                    className="btn btn-outline uppercase border-0 border-b-2">
                                     ORDER YOUR FAVOURITE FOOD
                                 </button>
                             </div>

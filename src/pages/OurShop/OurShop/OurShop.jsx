@@ -1,9 +1,11 @@
 
+
 import shop_bg from '../../../assets/shop/banner2.jpg';
 import Cover from '../../components/Cover/Cover';
 import TabCategories from "../TabCategories/TabCategories";
 
 const OurShop = () => {
+
 
 
     return (

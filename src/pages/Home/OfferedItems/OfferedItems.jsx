@@ -11,7 +11,7 @@ const OfferedItems = () => {
     // const offeredItems = menuItems.filter(item => item.category === "offered");
     const { data: offeredItems = [], isLoading } = useMenuByCategory("offered");
 
-    console.log(offeredItems);
+    // console.log(offeredItems);
 
 
     return (
