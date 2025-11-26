@@ -4,7 +4,7 @@ import MenuCard from '../../components/MenuCard/MenuCard';
 import { useAllMenu } from '../../../hooks/useMenu';
 
 const TabCategories = () => {
-    const menuItems = useAllMenu();
+    const {data:menuItems=[]} = useAllMenu();
     // console.log(menuItems);
 
     const categories = [

@@ -41,12 +41,12 @@ const Category = () => {
                     {
                         slides.map((slide, idx) => (
                             <SwiperSlide key={idx}>
-                                <div className="relative cursor-pointer rounded-xl">
+                                <div className="relative cursor-pointer rounded-xl group">
                                     <img src={slide} alt="" className="w-full object-cover rounded-xl" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl"></div>
                                     <p
                                         style={{ textShadow: "2px 5px 8px rgba(0,0,0,0.7)" }}
-                                        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 uppercase text-2xl z-50 text-white">
+                                        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 uppercase text-2xl z-50 text-white group-hover:font-bold">
                                         {categories[idx]}
                                     </p>
                                 </div>

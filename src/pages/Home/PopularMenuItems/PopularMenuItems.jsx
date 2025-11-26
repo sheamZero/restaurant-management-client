@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import MenuItem from "../../components/MenuItem/MenuItem";
+import axios from "axios";
 
 
 const PopularMenuItems = () => {
@@ -10,13 +11,9 @@ const PopularMenuItems = () => {
 
     // console.log(popularMenu);
     useEffect(() => {
-        fetch("/menu.json")
-            .then(res => res.json())
-            .then(data => {
-
-                const popularItems = data.filter(item => item.category === "popular");
-                setPopularMenu(popularItems);
-            })
+         axios.get("http://localhost:9000/menu?category=popular")
+            .then(res => setPopularMenu(res.data))
+            .catch(err => console.error("Error loading popular menu:", err));
     }, [])
 
     return (

@@ -10,7 +10,7 @@ import MenuItem from '../components/MenuItem/MenuItem';
 import SectionTitle from '../components/SectionTitle/SectionTitle';
 
 const OurMenu = () => {
-    const menuItems = useAllMenu();
+    const {data:menuItems=[]} = useAllMenu();
     const sectionsInfo = [
         {
             cover: our_menu,

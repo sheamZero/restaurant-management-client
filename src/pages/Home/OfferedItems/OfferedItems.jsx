@@ -1,13 +1,17 @@
 
-import { useAllMenu } from "../../../hooks/useMenu";
+// import { useAllMenu } from "../../../hooks/useMenu";
+import { useMenuByCategory } from "../../../hooks/useMenu";
 import MenuCard from "../../components/MenuCard/MenuCard";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 
 
 
 const OfferedItems = () => {
-    const menuItems = useAllMenu();
-    const offeredItems = menuItems.filter(item => item.category === "offered");
+    // const menuItems = useAllMenu();
+    // const offeredItems = menuItems.filter(item => item.category === "offered");
+    const { data: offeredItems = [], isLoading } = useMenuByCategory("offered");
+
+    console.log(offeredItems);
 
 
     return (
