@@ -8,7 +8,7 @@ const NavBar = () => {
   // const user = false;
   const { user, signoutUser } = useAuth();
   const {data:cartItems =[]} = useGetAllCart(user?.email);
-  console.log(cartItems);
+  // console.log(cartItems);
 
 
   const navLinks = (

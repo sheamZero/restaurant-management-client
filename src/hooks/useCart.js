@@ -31,26 +31,26 @@ export const useAddToCart = () => {
                     title: "Success!",
                     text: "Item added to cart successfully",
                     icon: "success",
-                    confirmButtonColor: "#facc15", // Tailwind yellow-500
+                    confirmButtonColor: "#facc15",
                     padding: "1.5rem",
                     width: 400,
                 });
 
-                // Refresh cart queries
-                queryClient.invalidateQueries(["cart"]);
+                // Refresh ALL cart-related queries
+                queryClient.invalidateQueries({ queryKey: ["cart"] });
             }
         },
         onError: (error) => {
-            toast.error(`Error: ${error.message}`);
             Swal.fire({
                 title: "Error!",
-                text: error.message, // fixed template literal
+                text: error.message,
                 icon: "error",
-                confirmButtonColor: "#facc15", // Tailwind yellow-500
+                confirmButtonColor: "#facc15",
                 padding: "1.5rem",
                 width: 400,
             });
         }
     });
 };
+
 

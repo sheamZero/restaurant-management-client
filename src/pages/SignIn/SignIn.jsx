@@ -20,7 +20,6 @@ const SignIn = () => {
         try {
             const result = await signInWithEmailPass(email, pass);
             navigate("/");
-
         } catch (err) {
             console.log(err?.message);
         }

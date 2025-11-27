@@ -1,19 +1,21 @@
 import { useForm } from "react-hook-form";
 import bg_of_page from '../../assets/others/authentication.png';
 import singUp_imag from '../../assets/others/authentication.gif';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
+import axios from "axios";
 
 
 
 const SignUp = () => {
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const location = useLocation()
+    // console.log(location);
 
     const { signUpWithEmailPass, updateUserProfile, signInWithGoogle, setUser } = useAuth();
     // console.log(signUpWithEmailPass);
     const navigate = useNavigate();
-
 
     const onSubmit = async (data) => {
         const name = data.name;
@@ -22,26 +24,57 @@ const SignUp = () => {
         const photo = data.photoUrl;
 
         try {
+            // 1. Create account
             const result = await signUpWithEmailPass(email, pass);
-            const updateUserResult = await updateUserProfile(name, photo);
 
-            setUser({ ...result?.user, displayName: name, photoURL: photo })
+            // 2. Update Firebase user profile
+            await updateUserProfile(name, photo);
+            reset();
+            // 3. Update local auth state
+            setUser({
+                ...result.user,
+                displayName: name, // use input name
+                photoURL: photo
+            });
 
-            console.log("user->", result);
-            console.log("Up result user->", updateUserResult);
-            navigate("/");
+            // 4. Prepare user data for DB
+            const userInfo = {
+                email,
+                displayName: name,
+                image: photo,
+            };
+
+            const res = await axios.post(
+                `${import.meta.env.VITE_API_URL}/users`,
+                userInfo
+            );
+            navigate(location.state || "/");
 
         } catch (err) {
-            console.log(err?.message);
+            console.log(err.message);
         }
     };
+
 
     // google login
     const handleGoogleSignIn = async () => {
         const result = await signInWithGoogle();
-        console.log(result);
-        setUser({ ...result?.user })
-    }
+        setUser({ ...result.user });
+
+        const userInfo = {
+            email: result.user?.email,
+            displayName: result.user?.displayName,
+            image: result.user?.photoURL
+        };
+
+        if (result.user) {
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/users`, userInfo);
+            console.log(res.data);
+        }
+        navigate(location.state || "/");
+    };
+
+
     return (
         <div
             className="hero min-h-screen bg-cover bg-center"
