@@ -1,12 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import { useAuth } from "../../../hooks/useAuth";
+import { CiShoppingCart } from "react-icons/ci";
+import { useGetAllCart } from "../../../hooks/useCart";
 
 const NavBar = () => {
   // const user = false;
   const { user, signoutUser } = useAuth();
+  const {data:cartItems =[]} = useGetAllCart(user?.email);
+  console.log(cartItems);
 
-  // ✅ navigation links with proper active styling
+
   const navLinks = (
     <>
       <li>
@@ -60,7 +64,6 @@ const NavBar = () => {
     <nav className="navbar bg-[#151515]/50 text-white font-semibold max-w-screen-xl fixed z-50 px-4">
       {/* Left section */}
       <div className="navbar-start">
-        {/* ✅ Mobile menu icon */}
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
             <svg
@@ -102,12 +105,21 @@ const NavBar = () => {
 
       {/* Right section (profile / login) */}
       <div className="navbar-end">
+        {/* dashboard */}
+        <Link
+          title="Dashboard"
+          className="flex items-center justify-center mr-5 p-1 relative hover:text-yellow-500"
+        >
+          <CiShoppingCart className="text-4xl font-extrabold"></CiShoppingCart>
+          <div className="badge bg-yellow-500 badge-xs absolute bottom-0 right-0 font-bold">{cartItems.length}</div>
+        </Link>
+
         {user ? (
           <div className="flex items-center gap-2">
             <Link onClick={signoutUser}>Signout</Link>
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full" title="">
-                <img referrerPolicy="no-referrer" alt="User Profile Photo" src={user?.photoURL} />
+                <img referrerPolicy="no-referrer" alt="User Profile Photo" src={user?.photoURL} title={user?.displayName} />
               </div>
             </div>
           </div>

@@ -26,7 +26,6 @@ const TabCategories = () => {
     const itemPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Reset page when tab changes
     useEffect(() => {
         setCurrentPage(1);
     }, [tabIndex]);
@@ -77,7 +76,7 @@ const TabCategories = () => {
                     <IoArrowBack className='text-2xl' />
                 </button>
 
-                <p>{currentPage} / {totalPage}</p>
+                <p className='font-medium'>{currentPage} / {totalPage}</p>
 
                 <button
                     className='w-16 h-16 rounded-full flex items-center justify-center border'
