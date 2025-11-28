@@ -5,16 +5,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
+import { useEffect } from "react";
 
 
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const location = useLocation()
-    // console.log(location);
+    const { user } = useAuth();
 
     const { signUpWithEmailPass, updateUserProfile, signInWithGoogle, setUser } = useAuth();
-    // console.log(signUpWithEmailPass);
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
@@ -26,14 +26,14 @@ const SignUp = () => {
         try {
             // 1. Create account
             const result = await signUpWithEmailPass(email, pass);
-
             // 2. Update Firebase user profile
             await updateUserProfile(name, photo);
             reset();
+
             // 3. Update local auth state
             setUser({
                 ...result.user,
-                displayName: name, // use input name
+                displayName: name,
                 photoURL: photo
             });
 
@@ -74,6 +74,9 @@ const SignUp = () => {
         navigate(location.state || "/");
     };
 
+    useEffect(() => {
+        if (user) navigate(location.state || "/");
+    }, [])
 
     return (
         <div
