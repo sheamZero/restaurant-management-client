@@ -9,7 +9,7 @@ export const useGetAllCart = (email = null) => {
     return useQuery({
         queryKey: ["cart", email], // cache per user
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/cart?email=${email}`);
+            const { data } = await axiosSecure.get(`/cart`);
             return data;
         },
         enabled: !!email, // only run query if email exists

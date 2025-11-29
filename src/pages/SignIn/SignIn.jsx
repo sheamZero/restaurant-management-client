@@ -2,24 +2,24 @@
 import { useForm } from "react-hook-form";
 import bg_of_page from '../../assets/others/authentication.png';
 import singIn_imag from '../../assets/others/authentication2.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
+import { useEffect } from "react";
 
 
 const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signInWithEmailPass, signInWithGoogle, setUser } = useAuth();
+    const { signInWithEmailPass,user, signInWithGoogle, setUser } = useAuth();
     const navigate = useNavigate();
-
-
+    const location = useLocation();
 
     const onSubmit = async (data) => {
         const email = data.email;
         const pass = data.password;
         try {
             const result = await signInWithEmailPass(email, pass);
-            navigate("/");
+            navigate(location.state || "/");
         } catch (err) {
             console.log(err?.message);
         }
@@ -30,7 +30,7 @@ const SignIn = () => {
             const result = await signInWithGoogle();
             console.log(result);
             setUser({ ...result?.user })
-            navigate("/")
+            navigate(location.state || "/");
         }
 
         catch (err) {
@@ -38,6 +38,11 @@ const SignIn = () => {
         }
     }
 
+    useEffect(() => {
+        if (user) {
+            navigate(location.state || "/");
+        }
+    }, [user,location.state])
 
     return (
         <div

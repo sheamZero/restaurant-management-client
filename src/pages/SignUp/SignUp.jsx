@@ -12,9 +12,8 @@ import { useEffect } from "react";
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const location = useLocation()
-    const { user } = useAuth();
 
-    const { signUpWithEmailPass, updateUserProfile, signInWithGoogle, setUser } = useAuth();
+    const { signUpWithEmailPass, updateUserProfile, signInWithGoogle, user, setUser } = useAuth();
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
@@ -24,9 +23,7 @@ const SignUp = () => {
         const photo = data.photoUrl;
 
         try {
-            // 1. Create account
             const result = await signUpWithEmailPass(email, pass);
-            // 2. Update Firebase user profile
             await updateUserProfile(name, photo);
             reset();
 
@@ -76,7 +73,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if (user) navigate(location.state || "/");
-    }, [])
+    }, [user])
 
     return (
         <div

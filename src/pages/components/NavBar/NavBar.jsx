@@ -7,7 +7,7 @@ import { useGetAllCart } from "../../../hooks/useCart";
 const NavBar = () => {
   // const user = false;
   const { user, signoutUser } = useAuth();
-  const {data:cartItems =[]} = useGetAllCart(user?.email);
+  const { data: cartItems = [] } = useGetAllCart(user?.email);
   // console.log(cartItems);
 
 
@@ -107,6 +107,7 @@ const NavBar = () => {
       <div className="navbar-end">
         {/* dashboard */}
         <Link
+          to={"/dashboard"}
           title="Dashboard"
           className="flex items-center justify-center mr-5 p-1 relative hover:text-yellow-500"
         >
