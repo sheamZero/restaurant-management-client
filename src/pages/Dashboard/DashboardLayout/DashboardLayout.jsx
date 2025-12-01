@@ -6,7 +6,6 @@ import { FaBookmark, FaShoppingBag, FaShoppingCart } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
 
 
-
 const DashboardLayout = () => {
 
     const navLinks = (
@@ -147,7 +146,8 @@ const DashboardLayout = () => {
     return (
         <div className="flex">
             {/* LEFT SIDEBAR */}
-            <nav className="bg-[#D1A054] w-1/5 h-screen flex flex-col px-6 py-10">
+           <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  flex flex-col px-6 py-10">
+
                 <div className="flex items-center gap-2">
                     <img className="w-auto h-12" src={logo} alt="Logo" />
                     <div>
@@ -170,7 +170,7 @@ const DashboardLayout = () => {
 
 
             {/* MAIN CONTENT */}
-            <section className="flex-1 p-10 bg-[#F7F7F7]">
+            <section className="flex-1 p-10 bg-[#F7F7F7] ml-[24%]">
                 <Outlet></Outlet>
             </section>
         </div>

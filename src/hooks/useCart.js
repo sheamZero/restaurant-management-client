@@ -1,9 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 import Swal from "sweetalert2";
+import { useAuth } from "./useAuth";
 
 
-export const useGetAllCart = (email = null) => {
+export const useGetAllCart = () => {
+    const { user } = useAuth();
+    const email = user?.email;
     const axiosSecure = useAxiosSecure();
 
     return useQuery({

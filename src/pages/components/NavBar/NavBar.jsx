@@ -7,7 +7,7 @@ import { useGetAllCart } from "../../../hooks/useCart";
 const NavBar = () => {
   // const user = false;
   const { user, signoutUser } = useAuth();
-  const { data: cartItems = [] } = useGetAllCart(user?.email);
+  const { data: cartItems = [] } = useGetAllCart();
   // console.log(cartItems);
 
 
