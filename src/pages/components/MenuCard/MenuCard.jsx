@@ -14,8 +14,14 @@ const MenuCard = ({ item }) => {
 
 
     const handleCartItem = async (item) => {
+        const { name, recipe, image, cateory, price } = item;
+
         const newItem = {
-            ...item,
+            name,
+            recipe,
+            image,
+            cateory,
+            price,
             cartId: item._id,
             email: user?.email
         }
@@ -44,8 +50,14 @@ const MenuCard = ({ item }) => {
 
         try {
             const result = await mutateAsync(newItem); // add to cart
-            if(result.insertedId){
-
+            if (result.insertedId) {
+                // Swal.fire({
+                //     position: "top-end",
+                //     icon: "success",
+                //     title: "Your work has been saved",
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             }
         } catch (error) {
             console.error("Failed to add to cart:", error);

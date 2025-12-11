@@ -56,4 +56,36 @@ export const useAddToCart = () => {
     });
 };
 
+export const useDeleteCartItems = () => {
+    const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (id) => {
+            const { data } = await axiosSecure.delete(`/cart/${id}`);
+            return data;
+        },
+        onSuccess: (data) => {
+            if (data.deletedCount) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your item has been deleted.",
+                    icon: "success"
+                });
+                queryClient.invalidateQueries({ queryKey: ["cart"] })
+            }
+        },
+        onError: (error) => {
+            Swal.fire({
+                title: "Error!",
+                text: error.message,
+                icon: "error",
+                confirmButtonColor: "#facc15",
+                padding: "1.5rem",
+                width: 400,
+            });
+        }
+    })
+}
+
 

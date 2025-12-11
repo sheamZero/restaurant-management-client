@@ -21,7 +21,7 @@ const useAxiosSecure = () => {
             console.log("error from hooks : ", error.response?.data);
             if (error.response.status === 401 || error.response.status === 403) {
                 await signoutUser()
-                navigate("/login")
+                navigate("/sign-in");
             }
             return Promise.reject(error);
         }

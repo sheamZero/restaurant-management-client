@@ -6,9 +6,7 @@ import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import { useEffect } from "react";
-
-
-
+ 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const location = useLocation()

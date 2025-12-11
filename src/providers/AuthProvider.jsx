@@ -14,16 +14,19 @@ const AuthProvider = ({ children }) => {
 
     // sign up user
     const signUpWithEmailPass = (email, pass) => {
+        setIsLoading(true);
         return createUserWithEmailAndPassword(auth, email, pass);
     }
 
     // google sign in
     const signInWithGoogle = () => {
+        setIsLoading(true);
         return signInWithPopup(auth, googleProvider);
     }
 
     // sign in user with email password
     const signInWithEmailPass = (email, pass) => {
+        setIsLoading(true);
         return signInWithEmailAndPassword(auth, email, pass);
     }
     // update user name
@@ -45,6 +48,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
+            setIsLoading(false);
             console.log("User -->>", currentUser);
             if (currentUser) {
                 const token_user = { email: currentUser?.email };
@@ -58,6 +62,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     const auth_info = {
+        isLoading,
         user,
         setUser,
         signUpWithEmailPass,
