@@ -6,20 +6,33 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const SignIn = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signInWithEmailPass,user, signInWithGoogle, setUser } = useAuth();
+    const { signInWithEmailPass, user, signInWithGoogle, setUser } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
 
     const onSubmit = async (data) => {
         const email = data.email;
         const pass = data.password;
         try {
             const result = await signInWithEmailPass(email, pass);
-            navigate(location.state || "/");
+
+            const userInfo = {
+                email: result.user?.email,
+                displayName: result.user?.displayName,
+                image: result.user?.photoURL
+            };
+
+            if (result.user) {
+                const res = await axiosPublic.post("/users", userInfo);
+                navigate(location.state || "/");
+            }
+
         } catch (err) {
             console.log(err?.message);
         }
@@ -28,8 +41,17 @@ const SignIn = () => {
     const handleGoogleSignIn = async () => {
         try {
             const result = await signInWithGoogle();
-            console.log(result);
-            setUser({ ...result?.user })
+            const userInfo = {
+                email: result.user?.email,
+                displayName: result.user?.displayName,
+                image: result.user?.photoURL
+            };
+
+            setUser({ ...result?.user });
+            if (result.user) {
+                const res = await axiosPublic.post("/users", userInfo);
+                console.log(res.data);
+            }
             navigate(location.state || "/");
         }
 
@@ -42,7 +64,7 @@ const SignIn = () => {
         if (user) {
             navigate(location.state || "/");
         }
-    }, [user,location.state])
+    }, [user, location.state])
 
     return (
         <div

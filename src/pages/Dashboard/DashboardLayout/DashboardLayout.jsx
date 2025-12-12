@@ -7,6 +7,7 @@ import { CiCreditCard1 } from "react-icons/ci";
 
 
 const DashboardLayout = () => {
+    const isadmin = true;
 
     const navLinks = (
         <ul className="flex flex-col gap-3">
@@ -15,7 +16,7 @@ const DashboardLayout = () => {
                     to="/"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -28,7 +29,7 @@ const DashboardLayout = () => {
                     to="/our-menu"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <IoMdMenu />
@@ -41,7 +42,7 @@ const DashboardLayout = () => {
                     to="/our-shop"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <FaShoppingBag />
@@ -54,13 +55,86 @@ const DashboardLayout = () => {
                     to="/contact-us"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <MdMail />
                     Contact Us
                 </NavLink>
             </li>
+        </ul>
+    );
+
+    const adminNavLinks = (
+        <ul className="flex flex-col gap-3">
+            <li>
+                <NavLink
+                    to="admin"
+                    end
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
+          ${isActive ? "text-white font-bold" : "text-black"}`
+                    }
+                >
+                    <MdHome className="text-2xl" />
+                    Admin Home
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="admin/add-items"
+                    end
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
+          ${isActive ? "text-white font-bold" : "text-black"}`
+                    }
+                >
+                    <MdHome className="text-2xl" />
+                   Add Items
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/manage-items"
+                    end
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
+          ${isActive ? "text-white font-bold" : "text-black"}`
+                    }
+                >
+                    <MdHome className="text-2xl" />
+                   Manage Items
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/manage-bookings"
+                    end
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
+          ${isActive ? "text-white font-bold" : "text-black"}`
+                    }
+                >
+                    <MdHome className="text-2xl" />
+                   Manage Bookings
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="admin/all-users"
+                    end
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
+          ${isActive ? "text-white font-bold" : "text-black"}`
+                    }
+                >
+                    <MdHome className="text-2xl" />
+                   All User
+                </NavLink>
+            </li>
+          
+        
+     
         </ul>
     );
 
@@ -120,7 +194,7 @@ const DashboardLayout = () => {
                     to="/contact-us"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <MdReviews />
@@ -129,10 +203,10 @@ const DashboardLayout = () => {
             </li>
             <li>
                 <NavLink
-                    to="/contact-us"
+                    to="my-booking"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-white font-bold" : "text-black"}`
                     }
                 >
                     <FaBookmark />
@@ -146,7 +220,7 @@ const DashboardLayout = () => {
     return (
         <div className="flex">
             {/* LEFT SIDEBAR */}
-           <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  flex flex-col px-6 py-10">
+            <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  flex flex-col px-6 py-10">
 
                 <div className="flex items-center gap-2">
                     <img className="w-auto h-12" src={logo} alt="Logo" />
@@ -157,7 +231,9 @@ const DashboardLayout = () => {
                 </div>
 
                 <div className="mt-16">
-                    {userNavLinks}
+                    {
+                        isadmin ? adminNavLinks : userNavLinks
+                    }
                 </div>
 
 

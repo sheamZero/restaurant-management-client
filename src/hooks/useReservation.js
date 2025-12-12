@@ -1,7 +1,24 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure"
 import Swal from "sweetalert2";
+import { useAuth } from "./useAuth";
 
+
+export const useGetAllReservation = () => {
+    const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const email = user?.email;
+
+    return useQuery({
+        queryKey: ['reservation', email],
+        enabled: !!email,
+        queryFn: async () => {
+            const { data } = await axiosSecure.get("/dashboard/reservation")
+            return data
+        }
+
+    })
+}
 
 export const useAddAReserveTable = () => {
     const axiosSecure = useAxiosSecure();

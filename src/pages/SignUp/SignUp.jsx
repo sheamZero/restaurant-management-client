@@ -6,10 +6,12 @@ import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import { useEffect } from "react";
- 
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const location = useLocation()
+    const location = useLocation();
+    const axiosPublic = useAxiosPublic();
 
     const { signUpWithEmailPass, updateUserProfile, signInWithGoogle, user, setUser } = useAuth();
     const navigate = useNavigate();
@@ -39,11 +41,11 @@ const SignUp = () => {
                 image: photo,
             };
 
-            const res = await axios.post(
-                `${import.meta.env.VITE_API_URL}/users`,
-                userInfo
-            );
-            navigate(location.state || "/");
+            if (result.user) {
+                const res = await axiosPublic("users", userInfo);
+                navigate(location.state || "/");
+            }
+
 
         } catch (err) {
             console.log(err.message);

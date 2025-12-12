@@ -131,7 +131,7 @@ const Contact = () => {
                                 Send Message
                                 <IoIosSend className='text-2xl'></IoIosSend>
                             </button>
-                            
+
                         </div>
                     </form>
                 </div>
