@@ -1,14 +1,53 @@
 import { useForm } from 'react-hook-form';
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 import { ImSpoonKnife } from "react-icons/im";
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
+
+const image_hosting_key = import.meta.env.VITE_IMGBB_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const AddItems = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
 
-    const onSubmit = (formData) => {
+    const onSubmit = async (formData) => {
+        const imageFile = { image: formData.image[0] };
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+
+        const menuItem = {
+            name: formData.recipe_name,
+            category: formData.category,
+            image: res.data.data.display_url,
+            recipe: formData.recipe_details,
+            price: parseFloat(formData.price)
+        }
+        if (res.data.success) {
+            const response = await axiosSecure.post("/menu", menuItem);
+            if (response.data.insertedId) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `${menuItem.name} is added successfully!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+             console.log("object", response);
+        }
+
         console.log("Submitted Data:", formData);
+        console.log("Submitted Data:", res.data);
+       
+
         reset();
     };
 
@@ -99,7 +138,7 @@ const AddItems = () => {
 
                     {/* File Upload */}
                     <div className="mb-6">
-                        
+
                         <input
                             type="file"
                             {...register("image", { required: "Image is required" })}
@@ -118,7 +157,7 @@ const AddItems = () => {
                         >
                             Add Item
                             <ImSpoonKnife className="text-2xl" />
-                          
+
                         </button>
                     </div>
 

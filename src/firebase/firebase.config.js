@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBy4o5P_r0dl4L-HFdL3Jj49140tKUztk0",
-  authDomain: "tabletalk-restaurant-edf5e.firebaseapp.com",
-  projectId: "tabletalk-restaurant-edf5e",
-  storageBucket: "tabletalk-restaurant-edf5e.firebasestorage.app",
-  messagingSenderId: "323187505408",
-  appId: "1:323187505408:web:0a661e6bf4e6bb3aef9be5"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_apiId
 };
 
 // Initialize Firebase

@@ -16,7 +16,6 @@ const useAxiosSecure = () => {
         (res) => {
             return res
         },
-
         async (error) => {
             console.log("error from hooks : ", error.response?.data);
             if (error.response.status === 401 || error.response.status === 403) {

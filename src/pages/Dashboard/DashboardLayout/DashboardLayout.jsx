@@ -4,10 +4,15 @@ import { MdHome, MdMail, MdPayment, MdReviews } from "react-icons/md";
 import { IoMdMenu } from "react-icons/io";
 import { FaBookmark, FaShoppingBag, FaShoppingCart } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
+import useAdmin from "../../../hooks/useAdmin";
 
 
 const DashboardLayout = () => {
-    const isadmin = true;
+    // const isAdmin = true;
+    const { isAdmin } = useAdmin();
+    console.log(isAdmin);
+
+
 
     const navLinks = (
         <ul className="flex flex-col gap-3">
@@ -90,7 +95,7 @@ const DashboardLayout = () => {
                     }
                 >
                     <MdHome className="text-2xl" />
-                   Add Items
+                    Add Items
                 </NavLink>
             </li>
             <li>
@@ -103,7 +108,7 @@ const DashboardLayout = () => {
                     }
                 >
                     <MdHome className="text-2xl" />
-                   Manage Items
+                    Manage Items
                 </NavLink>
             </li>
             <li>
@@ -116,7 +121,7 @@ const DashboardLayout = () => {
                     }
                 >
                     <MdHome className="text-2xl" />
-                   Manage Bookings
+                    Manage Bookings
                 </NavLink>
             </li>
             <li>
@@ -129,12 +134,12 @@ const DashboardLayout = () => {
                     }
                 >
                     <MdHome className="text-2xl" />
-                   All User
+                    All User
                 </NavLink>
             </li>
-          
-        
-     
+
+
+
         </ul>
     );
 
@@ -142,7 +147,7 @@ const DashboardLayout = () => {
         <ul className="flex flex-col gap-3">
             <li>
                 <NavLink
-                    to=""
+                    to="user"
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
@@ -232,7 +237,7 @@ const DashboardLayout = () => {
 
                 <div className="mt-16">
                     {
-                        isadmin ? adminNavLinks : userNavLinks
+                        isAdmin ? adminNavLinks : userNavLinks
                     }
                 </div>
 

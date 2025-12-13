@@ -14,7 +14,7 @@ const AllUsers = () => {
         }
     })
 
-    const handleMakeAdmin = (user) => {
+    const handleMakeAdmin = async (user) => {
         Swal.fire({
             title: "Are you sure?",
             text: "This user will be an admin!",
