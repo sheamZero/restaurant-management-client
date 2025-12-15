@@ -18,6 +18,7 @@ import ManageItems from "../pages/Dashboard/Admin/ManageItems/ManageItems";
 import ManageBookings from "../pages/Dashboard/Admin/ManageBookings/ManageBookings";
 import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 import AdminRoute from "./AdminRoute";
+import UpdateItem from "../pages/Dashboard/Admin/UpdateItem/UpdateItem";
 
 
 export const router = createBrowserRouter([
@@ -76,8 +77,15 @@ export const router = createBrowserRouter([
 
             // admin 
             { path: "admin", element: <AdminRoute><AdminHome></AdminHome></AdminRoute> },
-            { path: "admin/add-items", element: <AddItems></AddItems> },
-            { path: "admin/all-users", element: <AllUsers></AllUsers> },
+            { path: "admin/add-items", element: <AdminRoute><AddItems></AddItems></AdminRoute> },
+            { path: "admin/all-users", element: <AdminRoute><AllUsers></AllUsers></AdminRoute> },
+            { path: "admin/manage-items", element: <AdminRoute><ManageItems></ManageItems></AdminRoute> },
+            { path: "admin/manage-bookings", element: <AdminRoute><ManageBookings></ManageBookings></AdminRoute> },
+            {
+                path: "admin/update-item/:id",
+                element: <AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
+                loader: ({params}) => fetch(`http://localhost:9000/menu/${params.id}`)
+            },
         ]
     }
 

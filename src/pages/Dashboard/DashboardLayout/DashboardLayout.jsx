@@ -10,7 +10,7 @@ import useAdmin from "../../../hooks/useAdmin";
 const DashboardLayout = () => {
     // const isAdmin = true;
     const { isAdmin } = useAdmin();
-    console.log(isAdmin);
+    // console.log(isAdmin);
 
 
 
@@ -100,7 +100,7 @@ const DashboardLayout = () => {
             </li>
             <li>
                 <NavLink
-                    to="/manage-items"
+                    to="admin/manage-items"
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
@@ -113,7 +113,7 @@ const DashboardLayout = () => {
             </li>
             <li>
                 <NavLink
-                    to="/manage-bookings"
+                    to="admin/manage-bookings"
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
@@ -251,7 +251,7 @@ const DashboardLayout = () => {
 
 
             {/* MAIN CONTENT */}
-            <section className="flex-1 p-10 bg-[#F7F7F7] ml-[24%]">
+            <section className="flex-1 min-h-screen p-10 bg-[#F7F7F7] ml-[24%]">
                 <Outlet></Outlet>
             </section>
         </div>

@@ -20,6 +20,22 @@ export const useGetAllReservation = () => {
     })
 }
 
+export const useGetAllReservationFromDb = () => {
+    const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const email = user?.email;
+
+    return useQuery({
+        queryKey: ['reservation', email],
+        enabled: !!email,
+        queryFn: async () => {
+            const { data } = await axiosSecure.get("/dashboard/reservations")
+            return data
+        }
+
+    })
+}
+
 export const useAddAReserveTable = () => {
     const axiosSecure = useAxiosSecure();
     return useMutation({
