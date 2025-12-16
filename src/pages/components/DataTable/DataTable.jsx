@@ -1,10 +1,10 @@
+import PageLoader from "../PageLoader/PageLoader";
 
 
 const DataTable = ({ title, len, columns, isLoading, children }) => {
 
     if (isLoading) {
-        return <p className="text-center p-10 font-medium">Loading...</p>;
-
+        return <PageLoader></PageLoader>
     }
     return (
         <div className="overflow-x-auto bg-white mx-auto p-8 mt-5 rounded">

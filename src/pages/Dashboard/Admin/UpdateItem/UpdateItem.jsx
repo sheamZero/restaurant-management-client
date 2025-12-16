@@ -2,26 +2,19 @@ import { useForm } from "react-hook-form";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
-
+import { errorAction, successAction } from "../../../../utils/swal"; // added errorAction
 
 const image_hosting_key = import.meta.env.VITE_IMGBB_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const UpdateItem = () => {
     const navigate = useNavigate();
-    const itemData = useLoaderData();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
 
+    const itemData = useLoaderData();
     const { name = "", category = "", price = "", recipe = "" } = itemData || {};
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm({
         defaultValues: {
             recipe_name: name,
             category: category,
@@ -31,47 +24,35 @@ const UpdateItem = () => {
     });
 
     const onSubmit = async (formData) => {
-        const imageFile = { image: formData.image[0] };
-        // image was hosted in the imgbb
-        const res = await axiosPublic.post(image_hosting_api, imageFile, {
-            headers: {
-                'content-type': 'multipart/form-data'
+        try {
+            const imageFile = { image: formData.image[0] };
+            const res = await axiosPublic.post(image_hosting_api, imageFile, {
+                headers: { 'content-type': 'multipart/form-data' }
+            });
+            if (!res.data.success) throw new Error("Image upload failed");
+
+            const updatedMenuItem = {
+                name: formData.recipe_name,
+                category: formData.category,
+                image: res.data.data.display_url,
+                recipe: formData.recipe_details,
+                price: parseFloat(formData.price)
             }
-        })
 
-        const updatedMenuItem = {
-            name: formData.recipe_name,
-            category: formData.category,
-            image: res.data.data.display_url,
-            recipe: formData.recipe_details,
-            price: parseFloat(formData.price)
-        }
-
-        if (res.data.success) {
-            // to do
             const response = await axiosSecure.patch(`/menu/${itemData._id}`, updatedMenuItem);
-            if (response.data.modifiedCount) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: `${itemData.name} is added successfully!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+
+            if (response.data.modifiedCount > 0) {
+                await successAction(`${itemData.name} is updated successfully!`);
+                reset();
+                navigate("/dashboard/admin/manage-items");
+            } else {
+                throw new Error("Item was not updated");
             }
-            else {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "no modification is done X",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            navigate("/dashboard/admin/manage-items");
-            console.log("object", response);
+
+        } catch (err) {
+            await errorAction(err.response?.data?.message || err.message || "Something went wrong");
         }
-    };
+    }
 
     return (
         <section>
@@ -82,7 +63,7 @@ const UpdateItem = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     className="rounded-lg p-8 w-full max-w-5xl"
                 >
-
+                    {/* Recipe Name */}
                     <div className="mb-6">
                         <label className="block text-gray-700 font-medium mb-2">
                             Recipe Name*
@@ -96,7 +77,7 @@ const UpdateItem = () => {
                         {errors.recipe_name && <p className="text-red-500 text-sm">{errors.recipe_name.message}</p>}
                     </div>
 
-
+                    {/* Category + Price */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
                         <div>
@@ -118,7 +99,6 @@ const UpdateItem = () => {
                             {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
                         </div>
 
-
                         <div>
                             <label className="block text-gray-700 font-medium mb-2">
                                 Price*
@@ -126,17 +106,14 @@ const UpdateItem = () => {
                             <input
                                 type="number"
                                 placeholder="Price"
-                                {...register("price", {
-                                    required: "Price is required",
-
-                                })}
+                                {...register("price", { required: "Price is required" })}
                                 className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
                             />
                             {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
                         </div>
                     </div>
 
-
+                    {/* Recipe Details */}
                     <div className="mb-5">
                         <label className="block text-gray-700 font-medium mb-2">
                             Recipe Details*
@@ -152,7 +129,6 @@ const UpdateItem = () => {
 
                     {/* File Upload */}
                     <div className="mb-6">
-
                         <input
                             type="file"
                             {...register("image", { required: "Image is required" })}
@@ -161,7 +137,7 @@ const UpdateItem = () => {
                         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
                     </div>
 
-
+                    {/* Submit */}
                     <div className="flex justify-center">
                         <button
                             type="submit"
@@ -172,7 +148,6 @@ const UpdateItem = () => {
                     </div>
                 </form>
             </div>
-
         </section>
     );
 };

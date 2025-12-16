@@ -11,7 +11,7 @@ const TabCategories = () => {
     const { data: menuItems = [] } = useAllMenu();
     const location = useLocation();
 
-    console.log(location?.state);
+    // console.log(location?.state);
 
     const categories = [
         { label: "salads", key: "salad" },

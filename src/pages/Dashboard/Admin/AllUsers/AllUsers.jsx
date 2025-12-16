@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTrash, FaUsers } from "react-icons/fa";
-import Swal from "sweetalert2";
+import DataTable from "../../../components/DataTable/DataTable";
+import { successAction, confirmAction, errorAction } from "../../../../utils/swal";
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -14,114 +15,104 @@ const AllUsers = () => {
         }
     })
 
+    // update user role
     const handleMakeAdmin = async (user) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This user will be an admin!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, make it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                const res = await axiosSecure.patch(`users/${user._id}`);
-                // console.log("pathchccc = ", res.data);
-                refetch();
-                if (res.data.modifiedCount > 0) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: `${user.displayName} is now an admin!`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            }
+        const isConfirmed = await confirmAction({
+            title: "Make Admin?",
+            text: `${user.displayName} will get admin access.`,
+            confirmText: "Yes, make admin",
         });
-    }
+
+        if (!isConfirmed) return;
+
+        try {
+            const res = await axiosSecure.patch(`/users/${user._id}`);
+            if (res.data.modifiedCount > 0) {
+                refetch();
+                await successAction(`${user.displayName} is now an admin!`);
+            } else {
+                throw new Error("No changes were made.");
+            }
+        } catch (err) {
+            await errorAction(
+                err.response?.data?.message || "Failed to update user role"
+            );
+        }
+    };
+
 
     const handleDeleteUser = async (user) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                const res = await axiosSecure.delete(`users/${user._id}`);
-                refetch();
-                if (res.data.deletedCount > 0) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: `${user.displayName} has beed deleted!`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            }
+        const isConfirmed = await confirmAction({
+            title: "Delete User?",
+            text: `This will permanently delete ${user.displayName}.`,
+            confirmText: "Yes, delete",
         });
-    }
 
-    console.log(users);
+        if (!isConfirmed) return;
 
+        try {
+            const res = await axiosSecure.delete(`/users/${user._id}`);
+
+            if (res.data.deletedCount > 0) {
+                refetch();
+                await successAction(`${user.displayName} has been deleted.`);
+            } else {
+                throw new Error("User could not be deleted.");
+            }
+        } catch (err) {
+            await errorAction(
+                err.response?.data?.message ||
+                err.message ||
+                "Failed to delete user"
+            );
+        }
+    };
 
 
     return (
         <section>
             <SectionTitle title="Manage All User" subTitle="How Many??"></SectionTitle>
 
-            <div className="overflow-x-auto bg-white mx-auto p-8 mt-5 rounded">
-                <div className="flex items-center justify-between mb-5">
-                    <h2 className="font-semibold text-3xl">Total Users : {users.length}</h2>
-                </div>
+            <DataTable
+                title={"Total Bookings"}
+                len={users.length}
+                isLoading={isLoading}
+                columns={[
+                    "#",
+                    "Name",
+                    "Email",
+                    "Role",
+                    "Action"
+                ]}
+            >
+                {
+                    users.map((user, idx) => (
+                        <tr key={user._id}>
+                            <td className="font-bold">{idx + 1}</td>
+                            <td>{user.displayName} </td>
+                            <td>{user.email} </td>
+                            <td>
+                                {
+                                    user?.role ? "Admin" : <button
+                                        onClick={() => handleMakeAdmin(user)}
+                                        className="btn bg-[#D1A054] hover:bg-[#D1A054]">
+                                        <FaUsers className="font-bold text-white"></FaUsers>
+                                    </button>
+                                }
+                            </td>
+                            <td>
+                                <button
+                                    onClick={() => handleDeleteUser(user)}
+                                    className="btn btn-secondary">
+                                    <FaTrash className="font-bold"></FaTrash>
+                                </button>
+                            </td>
 
-                <table className="table">
-                    {/* head */}
-                    <thead className="bg-[#D1A054] rounded-tl-5xl rounded-tr-5xl">
-                        <tr className="text-base font-bold">
-                            <th></th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            users.map((user, idx) => (
-                                <tr key={user._id}>
-                                    <td className="font-bold">{idx + 1}</td>
-                                    <td>{user.displayName} </td>
-                                    <td>{user.email} </td>
-                                    <td>
-                                        {
-                                            user?.role ? "Admin" : <button
-                                                onClick={() => handleMakeAdmin(user)}
-                                                className="btn bg-[#D1A054] hover:bg-[#D1A054]">
-                                                <FaUsers className="font-bold text-white"></FaUsers>
-                                            </button>
-                                        }
-                                    </td>
-                                    <td>
-                                        <button
-                                            onClick={() => handleDeleteUser(user)}
-                                            className="btn btn-secondary">
-                                            <FaTrash className="font-bold"></FaTrash>
-                                        </button>
-                                    </td>
+                    ))
+                }
+            </DataTable>
 
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-
-                </table>
-            </div>
         </section>
     );
 };

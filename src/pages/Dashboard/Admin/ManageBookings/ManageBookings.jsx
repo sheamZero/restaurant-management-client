@@ -3,26 +3,35 @@ import { GiCheckMark } from 'react-icons/gi';
 import { useGetAllReservationFromDb } from '../../../../hooks/useReservation';
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
 import DataTable from '../../../components/DataTable/DataTable';
 import PageLoader from '../../../components/PageLoader/PageLoader';
+import { confirmAction, errorAction, successAction } from '../../../../utils/swal';
 
 const ManageBookings = () => {
     const { data = [], isLoading, refetch } = useGetAllReservationFromDb();
     const axiosSecure = useAxiosSecure();
 
-    const handleBookingActivity = async id => {
-        // pending / done 
-        const res = await axiosSecure.patch(`admin/reservation/${id}`)
-        if (res.data.modifiedCount > 0) {
-            refetch();
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Activity is Done!",
-                showConfirmButton: false,
-                timer: 1500
-            });
+    const handleBookingActivity = async (id) => {
+
+        const isConfirmed = await confirmAction({
+            title: "Mark as Done?",
+            text: "This booking will be marked as completed.",
+            confirmText: "Yes, mark done",
+        });
+
+        if (!isConfirmed) return;
+
+        try {
+            // pending / done 
+            const res = await axiosSecure.patch(`admin/reservation/${id}`);
+            if (res.data.modifiedCount > 0) {
+                refetch();
+                await successAction("Activity is done!");
+            } else {
+                throw new Error("No change were made!");
+            }
+        } catch (err) {
+            await errorAction(err.response?.data?.message || "Failed to update activity");
         }
     }
 

@@ -3,53 +3,55 @@ import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 import { ImSpoonKnife } from "react-icons/im";
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
+import { errorAction, successAction } from '../../../../utils/swal';
+import { useNavigate } from 'react-router-dom';
 
-
+// imgBB essentials for hosting image file 
 const image_hosting_key = import.meta.env.VITE_IMGBB_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const AddItems = () => {
-
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     const onSubmit = async (formData) => {
-        const imageFile = { image: formData.image[0] };
-        const res = await axiosPublic.post(image_hosting_api, imageFile, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
+        try {
+            const image = formData.image?.[0];
+            if (!image) throw new Error("Image file is required");
 
-        const menuItem = {
-            name: formData.recipe_name,
-            category: formData.category,
-            image: res.data.data.display_url,
-            recipe: formData.recipe_details,
-            price: parseFloat(formData.price)
-        }
-        if (res.data.success) {
+            const imageFile = { image };
+            const res = await axiosPublic.post(image_hosting_api, imageFile, {
+                headers: { "content-type": "multipart/form-data" },
+            });
+
+            if (!res.data.success) {
+                throw new Error("Image upload failed");
+            }
+
+            const menuItem = {
+                name: formData.recipe_name,
+                category: formData.category,
+                image: res.data.data.display_url,
+                recipe: formData.recipe_details,
+                price: parseFloat(formData.price),
+            };
+
             const response = await axiosSecure.post("/menu", menuItem);
+
             if (response.data.insertedId) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: `${menuItem.name} is added successfully!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                await successAction(`${formData.recipe_name} added successfully!`);
+                reset();
+                navigate("/dashboard/admin/manage-items", { replace: true });
+            } else {
+                throw new Error("Item was not added");
             }
-             console.log("object", response);
+        } catch (err) {
+            await errorAction(err.response?.data?.message || err.message || "Something went wrong");
         }
-
-        console.log("Submitted Data:", formData);
-        console.log("Submitted Data:", res.data);
-       
-
-        reset();
     };
+
 
     return (
         <section>
@@ -157,7 +159,6 @@ const AddItems = () => {
                         >
                             Add Item
                             <ImSpoonKnife className="text-2xl" />
-
                         </button>
                     </div>
 
