@@ -61,8 +61,9 @@ export const useDeleteCartItems = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id) => {
-            const { data } = await axiosSecure.delete(`/cart/${id}`);
+        mutationFn: async (cart) => {
+            console.log("ccccc cart : ", cart);
+            const { data } = await axiosSecure.delete(`/cart/${cart._id}`);
             return data;
         },
         onSuccess: (data) => {

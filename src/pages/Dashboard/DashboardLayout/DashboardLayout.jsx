@@ -225,7 +225,7 @@ const DashboardLayout = () => {
     return (
         <div className="flex">
             {/* LEFT SIDEBAR */}
-            <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  flex flex-col px-6 py-10">
+            <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  md:flex flex-col px-6 py-10 hidden ">
 
                 <div className="flex items-center gap-2">
                     <img className="w-auto h-12" src={logo} alt="Logo" />

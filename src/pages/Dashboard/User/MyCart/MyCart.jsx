@@ -1,7 +1,8 @@
 import { FaTrash } from "react-icons/fa";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { useDeleteCartItems, useGetAllCart } from "../../../../hooks/useCart";
-import Swal from "sweetalert2";
+import { confirmAction, } from "../../../../utils/swal";
+import { Link } from "react-router-dom";
 
 
 const MyCart = () => {
@@ -12,26 +13,23 @@ const MyCart = () => {
         return accumulator + currentItem.price;
     }, 0);
 
-
     const handleDeleteCartItem = async (cart) => {
-        console.log(cart._id);
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
+        try {
+            const isConfirmed = await confirmAction({
+                title: "Delete Cart Item?",
+                text: `Are you sure you want to remove "${cart.name}" from your cart?`,
+                confirmText: "Yes, delete it",
+            });
 
-                await mutateAsync(cart._id);
-                // refetch();
-            }
-        });
+            if (!isConfirmed) return;
 
-    }
+            await mutateAsync(cart);
+
+        } catch (err) {
+            await errorAction(err.response?.data?.message || err.message || "Something went wrong!");
+        }
+    };
+
 
     return (
         <div>
@@ -41,7 +39,9 @@ const MyCart = () => {
                 <div className="flex items-center justify-between mb-5">
                     <h2 className="font-semibold text-3xl">Total Order : {data.length}</h2>
                     <h2 className="font-semibold text-3xl">Total Pay : ${totalCartPrice}</h2>
-                    <button className="btn btn-info font-semibold text-xl">Pay</button>
+                    <Link to={"/dashboard/payments"}>
+                        <button className="btn btn-info font-semibold text-xl">Pay</button>
+                    </Link>
                 </div>
 
                 <table className="table">

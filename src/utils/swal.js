@@ -16,7 +16,6 @@ export const confirmAction = async (options = {}) => {
         cancelButtonColor: "#d33",
         confirmButtonText: confirmText,
     });
-    console.log(result);
     return result.isConfirmed;
 };
 
