@@ -11,6 +11,8 @@ const ManageBookings = () => {
     const { data = [], isLoading, refetch } = useGetAllReservationFromDb();
     const axiosSecure = useAxiosSecure();
 
+    console.log(data);
+
     const handleBookingActivity = async (id) => {
 
         const isConfirmed = await confirmAction({
@@ -52,6 +54,7 @@ const ManageBookings = () => {
                     "Phone",
                     "Booking Date",
                     "Booking Time",
+                    "Status",
                     "Activity",
                     "Action"
                 ]}
@@ -63,9 +66,11 @@ const ManageBookings = () => {
                         <td>{item.phone}</td>
                         <td>{item.date}</td>
                         <td>{item.time}</td>
+                        <td className="text-btnHover capitalize font-semibold">{item.paymentStatus}</td>
                         <td className={`font-bold ${item.activity === 'Done' ? 'text-green-700' : 'text-yellow-700'}`}>{item.activity}</td>
                         <td>
-                            <button onClick={() => handleBookingActivity(item._id)} className="btn btn-circle bg-green-300">
+                            <button
+                                onClick={() => handleBookingActivity(item._id)} className="btn btn-circle bg-green-300 text-black hover:bg-green-400 border-0  ">
                                 <GiCheckMark />
                             </button>
                         </td>

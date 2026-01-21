@@ -6,6 +6,8 @@ const PrivateRoute = ({ children }) => {
     const location = useLocation();
     const { user, isLoading } = useAuth();
 
+    console.log("location inside private routes", location);
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -16,8 +18,8 @@ const PrivateRoute = ({ children }) => {
 
     if (user) return children;
 
-    return <Navigate to={"/sign-in"} state={location.pathname} replace={true}></Navigate>
-
+    // Redirect to sign-in, preserving the page user tried to access
+    return <Navigate to="/sign-in" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;

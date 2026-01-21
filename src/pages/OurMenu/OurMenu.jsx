@@ -8,6 +8,8 @@ import { useAllMenu } from '../../hooks/useMenu';
 import Cover from '../components/Cover/Cover';
 import MenuItem from '../components/MenuItem/MenuItem';
 import SectionTitle from '../components/SectionTitle/SectionTitle';
+import Container from '../components/Container/Container';
+import { ArrowRight } from 'lucide-react';
 
 const OurMenu = () => {
     const { data: menuItems = [] } = useAllMenu();
@@ -73,27 +75,39 @@ const OurMenu = () => {
                     <div key={sec.key}>
 
                         {/* COVER */}
-                        <section>
+                        <section className=' py-16 bg-backgroundcolorwhite'>
                             <Cover bg_img={sec.cover} title={sec.title} subTitle={sec.subtitle} />
                         </section>
 
                         {/* ITEMS */}
-                        <section className="mt-20 mb-10">
-                            <SectionTitle title={sec.sectionTitle} subTitle={sec.sectionSubtitle} />
+                        <section className="py-24 my-24 bg-backgroundcolor">
+                            <Container>
+                                <SectionTitle title={sec.sectionTitle} subTitle={sec.sectionSubtitle} />
 
-                            <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
-                                {filteredItems.map(item => (
-                                    <MenuItem item={item} key={item._id} />
-                                ))}
-                            </div>
+                                <div className="grid grid-cols-1 my-12 md:grid-cols-2 gap-10">
+                                    {filteredItems.map(item => (
+                                        <MenuItem item={item} key={item._id} />
+                                    ))}
+                                </div>
 
-                            <div className="flex items-center justify-center">
-                                <button
-                                    onClick={() => navigate(`/our-shop`, { state: { category: sec.key } })}
-                                    className="btn btn-outline uppercase border-0 border-b-2">
-                                    ORDER YOUR FAVOURITE FOOD
-                                </button>
-                            </div>
+                                <div className="flex items-center justify-center">
+                                    <button
+                                        onClick={() => navigate(`/our-shop`, { state: { category: sec.key } })}
+                                        className="group mb-5 relative overflow-hidden rounded-full border-2 border-primary px-8 py-3 text-sm font-semibold uppercase tracking-wide text-primary transition-all duration-300 hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                    >
+                                        <span className="absolute inset-0 bg-primary translate-y-full transition-transform duration-300 group-hover:translate-y-0"></span>
+
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            Order Now
+                                            <span className="transition-transform duration-300 group-hover:translate-x-1">
+                                                <ArrowRight></ArrowRight>
+                                            </span>
+                                        </span>
+                                    </button>
+
+
+                                </div>
+                            </Container>
                         </section>
 
                     </div>

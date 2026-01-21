@@ -1,12 +1,15 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "var(--primary)",
+        btnHover: "var(--btnHover)",
+        backgroundcolor: "var(--backgroundcolor)",
+        backgroundcolorwhite: "var(--backgroundcolorwhite)",
+      },
+    },
   },
   plugins: [require("daisyui")],
-}
-
+};

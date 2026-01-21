@@ -16,7 +16,7 @@ const Home = () => {
 
             <Banner></Banner>
             <Category></Category>
-            <section className="md:my-20">
+            <section className=" bg-backgroundcolorwhite rounded-lg">
                 <Cover bg_img={bg_chef_service} title={"TableTalk"} subTitle={" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga quas delectus perferendis cumque dicta, quia quae doloremque neque numquam dolore tenetur. Fugit odio quos consequuntur quas consequatur quae deserunt quo"}></Cover>
             </section>
             <PopularMenuItems></PopularMenuItems>

@@ -57,7 +57,7 @@ const AddItems = () => {
         <section>
             <SectionTitle title="Add An Item" subTitle="What's new" />
 
-            <div className="mt-5 w-full bg-[#F3F3F3] flex items-center justify-center px-4">
+            <div className="mt-5 w-full bg-backgroundcolorwhite flex items-center justify-center px-4">
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="rounded-lg p-8 w-full max-w-5xl"
@@ -65,14 +65,14 @@ const AddItems = () => {
 
                     {/* Recipe Name */}
                     <div className="mb-6">
-                        <label className="block text-gray-700 font-medium mb-2">
+                        <label className="block text-gray-800 font-semibold mb-2">
                             Recipe Name*
                         </label>
                         <input
                             type="text"
                             placeholder="Enter recipe name"
                             {...register("recipe_name", { required: "Recipe name is required" })}
-                            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
                         />
                         {errors.recipe_name && (
                             <p className="text-red-500 text-sm mt-1">{errors.recipe_name.message}</p>
@@ -84,12 +84,12 @@ const AddItems = () => {
 
                         {/* Category */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-2">
+                            <label className="block text-gray-800 font-semibold mb-2">
                                 Category*
                             </label>
                             <select
                                 {...register("category", { required: "Category is required" })}
-                                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
+                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
                             >
                                 <option value="">Select category</option>
                                 <option value="salad">Salad</option>
@@ -106,14 +106,14 @@ const AddItems = () => {
 
                         {/* Price */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-2">
+                            <label className="block text-gray-800 font-semibold mb-2">
                                 Price*
                             </label>
                             <input
                                 type="number"
                                 placeholder="Price"
                                 {...register("price", { required: "Price is required" })}
-                                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
+                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
                             />
                             {errors.price && (
                                 <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
@@ -124,14 +124,14 @@ const AddItems = () => {
 
                     {/* Recipe Details */}
                     <div className="mb-5">
-                        <label className="block text-gray-700 font-medium mb-2">
+                        <label className="block text-gray-800 font-semibold mb-2">
                             Recipe Details*
                         </label>
                         <textarea
                             rows="5"
                             placeholder="Write recipe details..."
                             {...register("recipe_details", { required: "Details are required" })}
-                            className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary transition"
                         />
                         {errors.recipe_details && (
                             <p className="text-red-500 text-sm mt-1">{errors.recipe_details.message}</p>
@@ -155,7 +155,7 @@ const AddItems = () => {
                     <div className="flex justify-start">
                         <button
                             type="submit"
-                            className="bg-[#D1A054] flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-md hover:bg-[#b88845] transition-all"
+                            className="bg-primary flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-lg hover:bg-btnHover transition-all shadow-md hover:shadow-lg"
                         >
                             Add Item
                             <ImSpoonKnife className="text-2xl" />

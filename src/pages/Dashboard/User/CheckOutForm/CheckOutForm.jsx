@@ -3,14 +3,19 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useGetAllCart } from "../../../../hooks/useCart";
 import { useAuth } from "../../../../hooks/useAuth";
+import { useGetAllReservation } from "../../../../hooks/useReservation";
 
-const CheckOutForm = () => {
+const CheckOutForm = ({ type = "cart" }) => {
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
     const { user, loading } = useAuth();
 
     const { data: carts = [], isLoading } = useGetAllCart();
+    const { data: reservations, isLoading: reservationLoading } = useGetAllReservation();
+
+    console.log("typessss--", type);
+    // console.log("cart--", reservations);
 
     const [clientSecret, setClientSecret] = useState("");
     const [paymentError, setPaymentError] = useState("");
@@ -18,14 +23,24 @@ const CheckOutForm = () => {
     const [transactionId, setTransactionId] = useState("");
 
     /* ---------------- total price ---------------- */
-    const totalPrice = carts.reduce(
+    const totalPriceCarts = carts.reduce(
         (total, item) => total + Number(item.price || 0),
         0
     );
 
+    const totalPriceReservations = reservations?.reduce(
+        (total, item) => total + Number(item.price || 0),
+        0
+    );
+
+    let totalPrice = 0;
+    if (type === "cart") totalPrice = totalPriceCarts;
+    if (type === "reservation") totalPrice = totalPriceReservations;
+
     /* ---------------- create payment intent ---------------- */
     useEffect(() => {
-        if (isLoading || loading) return;
+        if (clientSecret) return;
+        if (isLoading || reservationLoading || loading) return;
         if (totalPrice <= 0) return;
 
         const createPaymentIntent = async () => {
@@ -41,7 +56,7 @@ const CheckOutForm = () => {
         };
 
         createPaymentIntent();
-    }, [isLoading, loading, totalPrice, axiosSecure]);
+    }, [isLoading, loading, reservationLoading, totalPrice, axiosSecure]);
 
     /* ---------------- handle submit ---------------- */
     const handlePaymentSubmit = async (e) => {
@@ -60,7 +75,7 @@ const CheckOutForm = () => {
         setPaymentError("");
 
         try {
-            /* 1️⃣ create payment method WITH billing details */
+            /* 1 create payment method WITH billing details */
             const { error, paymentMethod } = await stripe.createPaymentMethod({
                 type: "card",
                 card,
@@ -79,7 +94,7 @@ const CheckOutForm = () => {
             console.log("[paymentMethod]", paymentMethod);
 
 
-            /* 2️⃣ confirm payment */
+            /* 2 confirm payment */
             const { paymentIntent, error: confirmError } =
                 await stripe.confirmCardPayment(clientSecret, {
                     payment_method: paymentMethod.id,
@@ -93,9 +108,24 @@ const CheckOutForm = () => {
 
             console.log("[paymentIntent]", paymentIntent);
 
-            /* 3️⃣ success */
+            /* 3 success */
             if (paymentIntent.status === "succeeded") {
                 setTransactionId(paymentIntent.id);
+
+                const paymentInfo = {
+                    email: user?.email,
+                    transactionId: paymentIntent.id,
+                    date: new Date(),
+                    type,
+                    cartIds: type === "cart" ? carts.map(cart => cart._id) : [],
+                    menuIds: type === "cart" ? carts.map(cart => cart.cartId) : [],
+                    reservationIds: type === "reservation" ? reservations.map(res => res._id) : [],
+                    amount: totalPrice,
+                    status: "Pending",
+                }
+                const { data } = await axiosSecure.post("/payments", paymentInfo);
+                console.log("saved->", data);
+
             }
         } catch (err) {
             setPaymentError("Payment failed. Please try again.");
@@ -147,7 +177,17 @@ const CheckOutForm = () => {
                     disabled={!stripe || !clientSecret || isProcessing}
                     className="btn btn-primary disabled:opacity-70 w-full"
                 >
-                    {isProcessing ? "Processing..." : `Pay $${totalPrice}`}
+                    {
+                        isProcessing
+                            ?
+                            "Processing..."
+                            :
+                            type === "cart"
+                                ?
+                                `Pay $${totalPrice} for Cart Items`
+                                :
+                                `Pay $${totalPrice} for Reservation Items`
+                    }
                 </button>
             </form>
         </div>

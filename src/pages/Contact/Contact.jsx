@@ -6,6 +6,7 @@ import { IoIosSend } from "react-icons/io";
 import { useForm } from 'react-hook-form';
 import Cover from '../components/Cover/Cover';
 import SectionTitle from '../components/SectionTitle/SectionTitle';
+import Container from '../components/Container/Container';
 
 const Contact = () => {
 
@@ -18,53 +19,56 @@ const Contact = () => {
 
     return (
         <div>
-            <section>
+            <section className='py-16 bg-backgroundcolorwhite rounded-lg'>
                 <Cover bg_img={bg_img} title={"contact us"} subTitle={"Get in touch with our team for any inquiries or support."}></Cover>
             </section>
 
-            <section className='my-20'>
-                <SectionTitle title='our location' subTitle='Visit Us'></SectionTitle>
+            <section className=' py-20 bg-backgroundcolor rounded-lg'>
+                <Container>
+                    <SectionTitle title='our location' subTitle='Visit Us'></SectionTitle>
 
-                <div className='flex flex-col md:flex-row justify-between my-10'>
+                    <div className='flex flex-col mt-10 md:flex-row justify-between '>
 
-                    <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
-                        <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
-                            <p className='text-2xl font-medium py-6 uppercase'>Phone</p>
-                            <p className='text-sm opacity-80 md:text-base '>01909-758810</p>
+                        <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
+                            <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
+                                <p className='text-2xl font-medium py-6 uppercase'>Phone</p>
+                                <p className='text-sm opacity-80 md:text-base '>01909-758810</p>
+                            </div>
+                            <div className='absolute top-0 left-0 bg-[#E2852E] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
+                                <IoLocationOutline className='text-white text-3xl font-semibold'></IoLocationOutline>
+                            </div>
                         </div>
-                        <div className='absolute top-0 left-0 bg-[#D1A054] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
-                            <IoLocationOutline className='text-white text-3xl font-semibold'></IoLocationOutline>
+                        <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
+                            <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
+                                <p className='text-2xl font-medium py-6 uppercase'>Address</p>
+                                <p className='text-sm opacity-80 md:text-base '>xxxx-xxxx-xxxx</p>
+                            </div>
+                            <div className='absolute top-0 left-0 bg-[#E2852E] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
+                                <FaClock className='text-white text-3xl font-semibold'></FaClock>
+                            </div>
                         </div>
-                    </div>
-                    <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
-                        <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
-                            <p className='text-2xl font-medium py-6 uppercase'>Address</p>
-                            <p className='text-sm opacity-80 md:text-base '>xxxx-xxxx-xxxx</p>
+                        <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
+                            <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
+                                <p className='text-2xl font-medium py-6 uppercase'>working hours</p>
+                                <p className='text-sm opacity-80 md:text-base '>Mon-Fri : 10am-12pm</p>
+                                <p className='text-sm opacity-80 md:text-base '>Sat-Sun : 10am-12pm</p>
+                            </div>
+                            <div className='absolute top-0 left-0 bg-[#D1A054] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
+                                <LuPhoneCall className='text-white text-3xl font-semibold'></LuPhoneCall>
+                            </div>
                         </div>
-                        <div className='absolute top-0 left-0 bg-[#D1A054] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
-                            <FaClock className='text-white text-3xl font-semibold'></FaClock>
-                        </div>
-                    </div>
-                    <div className='p-6 md:min-w-[360px] md:p-8 border relative rounded'>
-                        <div className='py-24 w-full flex flex-col items-center justify-center bg-[#F3F3F3] rounded'>
-                            <p className='text-2xl font-medium py-6 uppercase'>working hours</p>
-                            <p className='text-sm opacity-80 md:text-base '>Mon-Fri : 10am-12pm</p>
-                            <p className='text-sm opacity-80 md:text-base '>Sat-Sun : 10am-12pm</p>
-                        </div>
-                        <div className='absolute top-0 left-0 bg-[#D1A054] w-full h-20 flex items-center justify-center rounded-tl-sm rounded-tr-sm'>
-                            <LuPhoneCall className='text-white text-3xl font-semibold'></LuPhoneCall>
-                        </div>
-                    </div>
 
-                </div>
+                    </div>
+                </Container>
 
             </section>
             {/* contact form */}
-            <section className='my-20'>
-                <SectionTitle title='contact form' subTitle='Send a Message'></SectionTitle>
+            <section className='py-10 bg-backgroundcolor'>
+              <Container>
+                  <SectionTitle title='contact form' subTitle='Send a Message'></SectionTitle>
 
 
-                <div className="min-h-screen w-full bg-[#F3F3F3] flex items-center justify-center mt-10 px-4">
+                <div className="min-h-screen w-full flex items-center justify-center">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="rounded-lg p-8 md:p-12 w-full max-w-5xl">
@@ -126,7 +130,7 @@ const Contact = () => {
                         <div className="flex justify-center">
                             <button
                                 type="submit"
-                                className="bg-[#D1A054] flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-md hover:bg-[#b88845] transition-all"
+                                className="bg-[#E2852E] flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-md hover:bg-[#d66d1f] transition-all"
                             >
                                 Send Message
                                 <IoIosSend className='text-2xl'></IoIosSend>
@@ -135,6 +139,7 @@ const Contact = () => {
                         </div>
                     </form>
                 </div>
+              </Container>
 
             </section>
 

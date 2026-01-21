@@ -58,7 +58,7 @@ const UpdateItem = () => {
         <section>
             <h2 className="text-3xl font-semibold text-center">Update Item</h2>
 
-            <div className="mt-5 w-full bg-[#F3F3F3] flex items-center justify-center px-4">
+            <div className="mt-5 w-full bg-sky flex items-center justify-center px-4">
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="rounded-lg p-8 w-full max-w-5xl"
@@ -122,7 +122,7 @@ const UpdateItem = () => {
                             rows="5"
                             placeholder="Write recipe details..."
                             {...register("recipe_details", { required: "Details are required" })}
-                            className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#D1A054]"
+                            className="w-full border border-gray-300 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                         {errors.recipe_details && <p className="text-red-500 text-sm">{errors.recipe_details.message}</p>}
                     </div>
@@ -141,7 +141,7 @@ const UpdateItem = () => {
                     <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="bg-[#D1A054] flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-md hover:bg-[#b88845] transition-all"
+                            className="bg-primary flex items-center gap-5 text-white font-semibold px-8 py-3 rounded-md hover:bg-orange-600 transition-all"
                         >
                             Update Item Details
                         </button>

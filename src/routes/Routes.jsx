@@ -20,6 +20,7 @@ import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 import AdminRoute from "./AdminRoute";
 import UpdateItem from "../pages/Dashboard/Admin/UpdateItem/UpdateItem";
 import Payments from "../pages/Dashboard/User/Payments/Payments";
+import PaymentHistory from "../pages/Dashboard/User/PaymentHistory/PaymentHistory";
 
 
 export const router = createBrowserRouter([
@@ -59,7 +60,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
             {
-                path: "user",
+                index: true,
                 element: <UserHome></UserHome>
             },
             {
@@ -69,6 +70,10 @@ export const router = createBrowserRouter([
             {
                 path: "my-cart",
                 element: <MyCart></MyCart>
+            },
+            {
+                path: "payment-history",
+                element: <PaymentHistory></PaymentHistory>
             },
             {
                 path: "my-booking",

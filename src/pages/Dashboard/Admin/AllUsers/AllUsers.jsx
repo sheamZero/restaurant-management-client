@@ -95,15 +95,15 @@ const AllUsers = () => {
                                 {
                                     user?.role ? "Admin" : <button
                                         onClick={() => handleMakeAdmin(user)}
-                                        className="btn bg-[#D1A054] hover:bg-[#D1A054]">
-                                        <FaUsers className="font-bold text-white"></FaUsers>
+                                        className="btn bg-green-200 hover:bg-green-300 text-white">
+                                        <FaUsers className="font-bold text-black"></FaUsers>
                                     </button>
                                 }
                             </td>
                             <td>
                                 <button
                                     onClick={() => handleDeleteUser(user)}
-                                    className="btn btn-secondary">
+                                    className="btn btn-outline btn-error ">
                                     <FaTrash className="font-bold"></FaTrash>
                                 </button>
                             </td>

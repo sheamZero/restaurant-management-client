@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom DaisyUI Theme Overrides */
+:root {
+  /* --primary: #FF5F15; */
+  /* --primary: 	#40B5AD; */
+  --primary: 	#10B981;
+  --btnHover: #059669;
+  /* --primary: #ff6700; */
+  --backgroundcolor: #f0f0f0;
+  --backgroundcolorwhite: #ffffff;
+}

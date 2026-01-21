@@ -1,18 +1,18 @@
+import { useState } from "react";
+import DashboardHeader from "./DashboardHeader";
+import DashboardSidebar from "./DashboardSidebar";
+import useAdmin from "../../../hooks/useAdmin";
 import { NavLink, Outlet } from "react-router-dom";
-import logo from "../../../assets/logo.png";
+import { CiCreditCard1 } from "react-icons/ci";
+import { FaBookmark, FaShoppingBag, FaShoppingCart } from "react-icons/fa";
 import { MdHome, MdMail, MdPayment, MdReviews } from "react-icons/md";
 import { IoMdMenu } from "react-icons/io";
-import { FaBookmark, FaShoppingBag, FaShoppingCart } from "react-icons/fa";
-import { CiCreditCard1 } from "react-icons/ci";
-import useAdmin from "../../../hooks/useAdmin";
 
 
-const DashboardLayout = () => {
-    // const isAdmin = true;
+
+const DashboardLayout = ({ children }) => {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const { isAdmin } = useAdmin();
-    // console.log(isAdmin);
-
-
 
     const navLinks = (
         <ul className="flex flex-col gap-3">
@@ -21,7 +21,7 @@ const DashboardLayout = () => {
                     to="/"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -34,7 +34,7 @@ const DashboardLayout = () => {
                     to="/our-menu"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <IoMdMenu />
@@ -47,7 +47,7 @@ const DashboardLayout = () => {
                     to="/our-shop"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <FaShoppingBag />
@@ -60,7 +60,7 @@ const DashboardLayout = () => {
                     to="/contact-us"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdMail />
@@ -69,7 +69,6 @@ const DashboardLayout = () => {
             </li>
         </ul>
     );
-
     const adminNavLinks = (
         <ul className="flex flex-col gap-3">
             <li>
@@ -78,7 +77,7 @@ const DashboardLayout = () => {
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -91,7 +90,7 @@ const DashboardLayout = () => {
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -104,7 +103,7 @@ const DashboardLayout = () => {
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -117,7 +116,7 @@ const DashboardLayout = () => {
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -130,7 +129,7 @@ const DashboardLayout = () => {
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -142,16 +141,15 @@ const DashboardLayout = () => {
 
         </ul>
     );
-
     const userNavLinks = (
         <ul className="flex flex-col gap-3">
             <li>
                 <NavLink
-                    to="user"
+                    to="/dashboard"
                     end
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdHome className="text-2xl" />
@@ -163,7 +161,7 @@ const DashboardLayout = () => {
                     to="reservation"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <CiCreditCard1 />
@@ -175,7 +173,7 @@ const DashboardLayout = () => {
                     to="my-cart"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <FaShoppingCart />
@@ -184,10 +182,10 @@ const DashboardLayout = () => {
             </li>
             <li>
                 <NavLink
-                    to="/contact-us"
+                    to="payment-history"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white bg-black" : "text-black"}`
+          ${isActive ? "text-primary" : "text-black"}`
                     }
                 >
                     <MdPayment />
@@ -199,7 +197,7 @@ const DashboardLayout = () => {
                     to="/contact-us"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <MdReviews />
@@ -211,7 +209,7 @@ const DashboardLayout = () => {
                     to="my-booking"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
-          ${isActive ? "text-white font-bold" : "text-black"}`
+          ${isActive ? "text-primary font-bold" : "text-black"}`
                     }
                 >
                     <FaBookmark />
@@ -221,39 +219,27 @@ const DashboardLayout = () => {
         </ul>
     );
 
-
     return (
-        <div className="flex">
-            {/* LEFT SIDEBAR */}
-            <nav className="bg-[#D1A054] w-1/5 h-screen top-0 fixed  md:flex flex-col px-6 py-10 hidden ">
+        <div className="h-screen w-screen flex overflow-hidden bg-gray-100">
+            {/* Sidebar */}
+            <DashboardSidebar
+                isOpen={sidebarOpen}
+                isAdmin={isAdmin}
+                adminNavLinks={adminNavLinks}
+                userNavLinks={userNavLinks}
+                navLinks={navLinks}
+                onClose={() => setSidebarOpen(false)}
+            />
 
-                <div className="flex items-center gap-2">
-                    <img className="w-auto h-12" src={logo} alt="Logo" />
-                    <div>
-                        <p className="font-bold tracking-[3px] text-black">TableTalk</p>
-                        <p className="font-semibold text-xl text-black">Restaurant</p>
-                    </div>
-                </div>
+            {/* Main Area */}
+            <div className="flex flex-col flex-1  min-w-0">
+                <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
 
-                <div className="mt-16">
-                    {
-                        isAdmin ? adminNavLinks : userNavLinks
-                    }
-                </div>
-
-
-                <div className="divider divider-primary"></div>
-                <div>
-                    {navLinks}
-                </div>
-            </nav>
-
-
-
-            {/* MAIN CONTENT */}
-            <section className="flex-1 min-h-screen p-10 bg-[#F7F7F7] ml-[24%]">
-                <Outlet></Outlet>
-            </section>
+                {/* Scrollable Content */}
+                <main className="flex-1 overflow-y-auto overflow-x-auto bg-backgroundcolor p-4 md:py-6 lg:px-20">
+                    <Outlet />
+                </main>
+            </div>
         </div>
     );
 };

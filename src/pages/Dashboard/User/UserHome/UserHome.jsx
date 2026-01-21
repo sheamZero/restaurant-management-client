@@ -6,13 +6,13 @@ const UserHome = () => {
     const { user } = useAuth();
 
     return (
-        <div className="w-full">
+        <div className="w-full p-8">
             <h2 className="text-3xl font-bold">Hi, Welcome Back!</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full mt-6">
 
                 {/* Menu */}
-                <div className="p-8 rounded-lg bg-gradient-to-r from-[#BB34F5] to-[#FBDBFF] flex items-center justify-center gap-4 text-white">
+                <div className="p-8 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center gap-4 text-white">
                     <MdMenu className="text-5xl" />
                     <div>
                         <p className="text-2xl font-semibold">203</p>
@@ -43,9 +43,9 @@ const UserHome = () => {
             {/* bottom */}
             <div className="mt-5 grid grid-cols-1 md:grid-cols-2">
 
-                <div className=" border-r-4 border-r-[#D1A054] bg-[#FFEDD5] flex flex-col items-center justify-center gap-5 p-20">
+                <div className=" border-r-4 border-r-primary bg-mint flex flex-col items-center justify-center gap-5 p-20">
                     <div className="w-48 h-48 rounded-full">
-                        <img className="bg-center w-48 h-48 border-2 border-[#D1A054] object-cover rounded-full hover:border-4" src={user?.photoURL} alt="" />
+                        <img className="bg-center w-48 h-48 border-2 border-primary object-cover rounded-full hover:border-4" src={user?.photoURL} alt="" />
                     </div>
                     <p className="text-2xl font-medium uppercase ">{user?.displayName}</p>
                 </div>
