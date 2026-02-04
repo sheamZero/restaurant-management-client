@@ -1,12 +1,33 @@
 import { MdMenu, MdMail } from "react-icons/md";
 import { FaShoppingBag } from "react-icons/fa";
 import { useAuth } from "../../../../hooks/useAuth";
+import { useAllMenu } from "../../../../hooks/useMenu";
+import { useGetAllCart } from "../../../../hooks/useCart";
+import { useGetAllPayment } from "../../../../hooks/usePayment";
+import PageLoader from "../../../components/PageLoader/PageLoader";
 
 const UserHome = () => {
     const { user } = useAuth();
+    const { data: menuItems = [], isLoading } = useAllMenu();
+    const { data: cartItems = [], isLoading: cartLoading } = useGetAllCart();
+    const { data: reservation = [], isLoading: reservationLoading } = useGetAllCart();
+    const { data: payments = [], isLoading: paymentLoading } = useGetAllPayment();
+
+
+    const totalCartIdsLength = payments.reduce(
+        (sum, p) => sum + (Array.isArray(p.cartIds) ? p.cartIds.length : 0),
+        0
+    );
+
+
+
+
+    if (isLoading || cartLoading || reservationLoading || paymentLoading) return <PageLoader />
+
+    console.log(totalCartIdsLength);
 
     return (
-        <div className="w-full p-8">
+        <div className="w-full py-8">
             <h2 className="text-3xl font-bold">Hi, Welcome Back!</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full mt-6">
@@ -15,7 +36,7 @@ const UserHome = () => {
                 <div className="p-8 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center gap-4 text-white">
                     <MdMenu className="text-5xl" />
                     <div>
-                        <p className="text-2xl font-semibold">203</p>
+                        <p className="text-2xl font-semibold">{menuItems.length}</p>
                         <p className="text-lg font-medium">Menu</p>
                     </div>
                 </div>
@@ -24,7 +45,7 @@ const UserHome = () => {
                 <div className="p-8 rounded-lg bg-gradient-to-r from-[#D3A256] to-[#FCE8C0] flex items-center justify-center gap-4 text-white">
                     <FaShoppingBag className="text-5xl" />
                     <div>
-                        <p className="text-2xl font-semibold">150</p>
+                        <p className="text-2xl font-semibold">{cartItems.length}</p>
                         <p className="text-lg font-medium">Shop</p>
                     </div>
                 </div>
@@ -59,7 +80,7 @@ const UserHome = () => {
                         {/* Order */}
                         <div className="flex items-center gap-2 text-purple-500">
                             <MdMenu className="text-2xl" />
-                            <span className="text-2xl">Order: 0</span>
+                            <span className="text-2xl">Order: {cartItems.length}</span>
                         </div>
 
                         {/* Review */}
@@ -71,13 +92,13 @@ const UserHome = () => {
                         {/* Payment */}
                         <div className="flex items-center gap-2 text-blue-500">
                             <MdMail className="text-2xl" />
-                            <span className="text-2xl">Payment: 3</span>
+                            <span className="text-2xl">Payment: {totalCartIdsLength}</span>
                         </div>
 
                         {/* Booking */}
                         <div className="flex items-center gap-2 text-red-500">
                             <MdMenu className="text-2xl" />
-                            <span className="text-2xl">Booking: 3</span>
+                            <span className="text-2xl">Booking: {reservation.length}</span>
                         </div>
 
                     </div>

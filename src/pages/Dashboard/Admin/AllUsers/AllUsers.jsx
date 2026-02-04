@@ -28,8 +28,9 @@ const AllUsers = () => {
         try {
             const res = await axiosSecure.patch(`/users/${user._id}`);
             if (res.data.modifiedCount > 0) {
-                refetch();
+              
                 await successAction(`${user.displayName} is now an admin!`);
+                  refetch();
             } else {
                 throw new Error("No changes were made.");
             }

@@ -194,7 +194,7 @@ const DashboardLayout = ({ children }) => {
             </li>
             <li>
                 <NavLink
-                    to="/contact-us"
+                    to="add-review"
                     className={({ isActive }) =>
                         `flex items-center gap-3 text-lg font-semibold rounded-md transition-all duration-300
           ${isActive ? "text-primary font-bold" : "text-black"}`

@@ -1,4 +1,4 @@
-# 🍽️ Restaurant Management System
+# 🍽️ TableTalk Restauraunt
 
 A full-stack web application for seamless restaurant operations and customer experience management. Features an intuitive admin dashboard, dynamic menu browsing, online reservations, secure payments, and real-time order tracking.
 

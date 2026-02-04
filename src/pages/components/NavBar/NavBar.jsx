@@ -42,6 +42,20 @@ const NavBar = () => {
     </>
   );
 
+  const authLinks = (
+    <>
+      <div className="flex flex-col text-sm md:text-base mt-2 lg:text-lg font-medium items-start p-2  border-t-[1px] ">
+        <Link to="/sign-in" className="hover:cursor-pointer">
+          Sign In
+        </Link>
+        <Link to="/sign-up"
+          className="hover:cursor-pointer">
+          Sign Up
+        </Link>
+      </div>
+    </>
+  )
+
   if (isAdminLoading) return null;
 
   return (
@@ -75,13 +89,14 @@ const NavBar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-56 p-2 shadow z-10 text-black"
               >
                 {navLinks}
+                {authLinks}
               </ul>
 
             </div>
 
             {/* Logo */}
             <div className="hidden lg:flex items-center gap-1">
-              <div className="flex flex-col leading-none">
+              <div className="flex flex-col bg leading-none">
                 <p className="font-bold tracking-[5px]">TableTalk</p>
                 <p className="font-semibold text-2xl">Restaurant</p>
               </div>

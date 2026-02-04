@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { successAction } from "../../utils/swal";
 
 const SignIn = () => {
     const {
@@ -39,6 +40,7 @@ const SignIn = () => {
 
             if (result.user) {
                 await axiosPublic.post("/users", userInfo);
+                await successAction("Login successfull!");
                 navigate(from, { replace: true });
             }
         } catch (err) {

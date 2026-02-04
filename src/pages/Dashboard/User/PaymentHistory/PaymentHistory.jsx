@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import PageLoader from "../../../components/PageLoader/PageLoader";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import { Link } from "react-router-dom";
 import EmptyState from "../../../components/EmptyState/EmptyState";
 
 const PaymentHistory = () => {

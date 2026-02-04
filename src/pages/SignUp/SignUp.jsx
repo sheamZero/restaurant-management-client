@@ -39,7 +39,7 @@ const SignUp = () => {
       };
 
       if (result.user) {
-        await axiosPublic("users", userInfo);
+        await axiosPublic.post("/users", userInfo);
         navigate(location.state || "/");
       }
     } catch (err) {

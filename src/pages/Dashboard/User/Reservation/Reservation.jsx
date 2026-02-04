@@ -28,10 +28,10 @@ const Reservation = () => {
             <SectionTitle title="book a table" subTitle="Reservation" />
 
             {/* form */}
-            <div className="w-full flex items-center justify-center px-4">
+            <div className="w-full flex items-center justify-center px-4 md:p-0">
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="rounded-xl p-8 md:p-12 w-full max-w-5xl"
+                    className="rounded-xl p-8 md:py-12 w-full max-w-5xl"
                 >
 
                     {/* Row 1: Date + Time + Guests */}
